@@ -1,0 +1,92 @@
+﻿@model POC.Models.FormDataViewModel
+
+
+<div style="margin-top:25px">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="fb-editor"></div>
+        </div>
+        <div class="col-sm-12">
+            @using (Html.BeginForm("FormDataEdit", "Home", FormMethod.Post, new { @id = "UpdateFormEdit" }))
+            {
+
+                @Html.HiddenFor(m => m.Id);
+                @Html.HiddenFor(m => m.FormId);
+                @Html.HiddenFor(m => m.Data);
+
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="@Url.Action("FormAdd", "Home")" title="Back" class="btn btn-default">Back Form</a>
+                <a href="@Url.Action("BuildForm", "Home")" title="Back" class="btn btn-default">Back Build Form</a>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<div class="col-sm-12">
+                    <div id="fb-editor"></div>
+                </div>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    debugger;
+    var formBuilder;
+    var getjsonData = $("#Data").val();
+    getjsonData = getjsonData.trim();
+
+    if (getjsonData != "" && getjsonData != null) {
+
+        var formData = getjsonData;
+        var jsonFormDataArray = JSON.parse(formData);
+        jsonFormDataArray.find(p => p.type === "select" && p.multiple === false && ((p.className = p.className.replace('bs-select', '') + ' bs-select show-tick', false), (p['data-live-search'] = true, false), (p['data-max-options'] = '1', false), (p['multiple'] = true, false)));
+
+        var finalFormDataVal = JSON.stringify(jsonFormDataArray);
+
+
+        var fbEditor = document.getElementById('fb-editor');
+        formBuilder = $(fbEditor).formRender({
+            dataType: 'json',
+            formData: finalFormDataVal
+        });
+    }
+    else {
+        jQuery(function ($) {
+            var fbEditor = document.getElementById('fb-editor');
+            formBuilder = $(fbEditor).formBuilder();
+        });
+    }
+
+    $("form").submit(function (event) {
+        debugger;
+        var jsonData = JSON.stringify(formBuilder.userData);
+        $("#Data").val(jsonData);
+        return true;
+    });
+
+</script>

@@ -1,0 +1,273 @@
+﻿@model  POC.Models.TestFormMasterModel
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    .custom-required{
+        color:red !important;
+    }
+
+</style>
+<div style="margin-top:15px !important">
+    <div id="fb-editor"></div>
+    @using (Html.BeginForm("TestView1", "Home", FormMethod.Post, new { @id = "CreateFormAdd" }))
+    {
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.TextBox, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.TextBox, new { @class = "form-control", placeholder = "TextBox" })
+                    @Html.ValidationMessageFor(model => model.TextBox, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.TextArea, new { @class = "control-label" })
+                    @Html.TextAreaFor(m => m.TextArea, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TextArea, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Dropdown, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Dropdown, new SelectList(new List<Object>
+                            {new { Value = "", Text = "Select"},new { Value = "Male", Text = "Male"}, new { Value = "Female", Text = "Female" }}, "Value", "Text", 0), new { @class = "form-control select2" })
+                    @Html.ValidationMessageFor(model => model.Dropdown, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(x => x.CheckboxGroup, new { @class = "control-label" })
+                @Html.CheckBoxFor(m => m.CheckboxGroup)
+                @Html.ValidationMessageFor(model => model.CheckboxGroup, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.RadioGroup, new { @class = "control-label" })
+                    @Html.RadioButtonFor(m => m.RadioGroup, "Male")
+                    @Html.ValidationMessageFor(model => model.RadioGroup, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Date, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.Date, new { @class = "form-control", placeholder = "Date" })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Show/Hide</button>
+                <a href="@Url.Action("BuildForm", "Home")" title="Back" class="btn btn-default">Back</a>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Show/Hide Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fields</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-name="TextBox">TextBox</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-name="TextArea">TextArea</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-name="Dropdown">Dropdown</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-name="CheckboxGroup">CheckboxGroup</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-name="RadioGroup">RadioGroup</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-name="Date">Date</td>
+                            <td>
+                                <input type="checkbox" class="commonRequired commonRequiredCheckBox" name="Required" value="">
+                                <label for="Required"> Required</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonShow commonCheckBox" name="Show" value="" checked>
+                                <label for="Show"> Show</label>
+                                &nbsp;&nbsp;
+                                <input type="checkbox" class="commonHide commonCheckBox" name="Hide" value="">
+                                <label for="Hide"> Hide</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary finalSave">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script>
+
+    $(".finalSave").click(function (event) {
+
+        $('table > tbody  > tr').each(function (index, tr) {
+
+            var currentObj = $(this);
+
+            var coloumnName = $(currentObj).find("td").attr("data-name");
+
+            var isRequired = $(currentObj).find(".commonRequiredCheckBox").is(":checked");
+
+            if (isRequired) {
+                $("#" + coloumnName + "").rules('add', 'required');
+                $("#" + coloumnName + "").attr('data-val', 'true');
+                $("#" + coloumnName + "").attr('data-msg-required', '' + coloumnName + ' is required.');
+                $("#" + coloumnName + "").before('<span class="custom-required">*</span>');
+            }
+            else {
+                $("#" + coloumnName + "").rules('remove', 'required');
+                $("#" + coloumnName + "").removeAttr('data-val');
+                $("#" + coloumnName + "").removeAttr('data-msg-required');
+
+                if ($("#" + coloumnName + "").next().hasClass("text-danger")) {                    
+                    $("#" + coloumnName + "").next().remove();
+                }
+            }
+
+            var isShow = $(currentObj).find(".commonShow").is(":checked");
+            if (isShow) {
+
+                if (coloumnName == "CheckboxGroup") {
+                    $("#" + coloumnName + "").closest("div").show();
+                }
+                else {
+                    $("#" + coloumnName + "").closest("div").parent().show();
+                }
+
+
+            }
+
+            var isHide = $(currentObj).find(".commonHide").is(":checked");
+            if (isHide) {
+                if (coloumnName == "CheckboxGroup") {
+                    $("#" + coloumnName + "").closest("div").hide();
+                }
+                else {
+                    $("#" + coloumnName + "").closest("div").parent().hide();
+                }
+            }
+
+        });
+
+        //$("#Form1").closest(".form-group").parent().hide();
+        //$("#Form4").closest(".form-group").parent().hide();
+
+        $('#exampleModal').modal('hide');
+
+    });
+
+    $('.commonCheckBox').change(function (event) {
+
+        if ($(this).is(":checked")) {
+            $(this).closest("tr").find(".commonCheckBox").not(this).prop('checked', false);
+        }
+        else {
+            $(this).closest("tr").find(".commonCheckBox").not(this).prop('checked', true);
+        }
+    });
+
+
+    $("#CreateFormAdd").submit(function (event) {        
+        $.validator.unobtrusive.parse('#CreateFormAdd');
+        var isvalidate = $('#CreateFormAdd').validate().form();
+        console.log(isvalidate);
+    });
+
+
+</script>

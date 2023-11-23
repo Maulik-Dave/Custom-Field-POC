@@ -1,0 +1,49 @@
+﻿@model  POC.Models.FormMasterModel
+<div style="margin-top:15px !important">
+    <div id="fb-editor"></div>
+    @using (Html.BeginForm("FormMasterEdit", "Home", FormMethod.Post, new { @id = "EditForm" }))
+    {
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Form)
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="@Url.Action("BuildForm", "Home")" title="Back" class="btn btn-default">Back</a>
+            </div>
+        </div>
+
+    }
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script>
+    
+    var formBuilder;
+    var fbEditor = document.getElementById('fb-editor');
+    formBuilder = $(fbEditor).formBuilder();
+
+    $("form").submit(function (event) {
+        var jsonData = formBuilder.actions.getData('json');
+        $("#Form").val(jsonData);
+    });
+
+    $(document).ready(function () {
+        //formBuilder.actions.setData('[{"type":"text","label":"Full Name","subtype":"text","className":"form-control","name":"text-1476748004559"},{"type":"select","label":"Occupation","className":"form-control","name":"select-1476748006618","values":[{"label":"Street Sweeper","value":"option-1","selected":true},{"label":"Moth Man","value":"option-2"},{"label":"Chemist","value":"option-3"}]},{"type":"textarea","label":"Short Bio","rows":"5","className":"form-control","name":"textarea-1476748007461"}]');
+    });
+
+    formBuilder.promise.then(formBuilder => {
+        // after the builder loads, do you stuff here
+        var getjsonData = $("#Form").val();
+        getjsonData = getjsonData.trim();
+
+        if (getjsonData != "" && getjsonData != null) {
+
+            formBuilder.actions.setData(getjsonData);
+        }
+    });
+
+</script>
