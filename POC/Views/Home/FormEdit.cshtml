@@ -1,0 +1,55 @@
+﻿@model POC.Models.FormMasterModel
+<div style="margin-top:25px">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="fb-editor"></div>
+        </div>
+        <div class="col-sm-12">
+            @using (Html.BeginForm("FormEdit", "Home", FormMethod.Post, new { @id = "UpdateFormEdit" }))
+            {
+
+                @Html.HiddenFor(m => m.Id);
+                @Html.HiddenFor(m => m.Form);
+
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="@Url.Action("FormAdd", "Home")" title="Back" class="btn btn-default">Back Form</a>
+                <a href="@Url.Action("BuildForm", "Home")" title="Back" class="btn btn-default">Back Build Form</a>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+<script>
+    
+    var formBuilder;
+    var getjsonData = $("#Form").val();
+    getjsonData = getjsonData.trim();
+
+    if (getjsonData != "" && getjsonData != null) {
+        var formData = getjsonData;
+        var fbEditor = document.getElementById('fb-editor');
+        formBuilder = $(fbEditor).formRender({
+            dataType: 'json',
+            formData: formData
+        });
+    }
+    else {
+        jQuery(function ($) {
+            var fbEditor = document.getElementById('fb-editor');
+            formBuilder = $(fbEditor).formBuilder();
+        });
+    }
+
+    $("form").submit(function (event) {
+        debugger;
+        var jsonData = JSON.stringify(formBuilder.userData);
+        $("#Form").val(jsonData);
+        return true;
+    });
+
+</script>

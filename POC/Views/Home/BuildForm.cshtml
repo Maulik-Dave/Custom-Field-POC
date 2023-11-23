@@ -1,0 +1,77 @@
+﻿@model  IEnumerable<POC.Models.FormDataViewModel>
+
+@{
+    var id = 0;
+
+    if (ViewBag.Id != null)
+    {
+        id = (int)ViewBag.Id;
+    }
+
+    var labelData = new List<SelectListItem>();
+
+    if (ViewBag.LabelList != null)
+    {
+        labelData = (List<SelectListItem>)ViewBag.LabelList;
+    }
+}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label for="email">Label</label>
+                @Html.DropDownList("Label", labelData, "Select", new { @class = "form-control column-drpsearch" })
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label for="pwd">Enter Text</label>
+                <input type="text" class="form-control column-search" placeholder="Enter Text" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <button type="button" class="btn btn-primary mt-2" id="searchData" style="margin-top: 24px;">Search</button>
+        </div>
+    </div>
+   <div class="row">
+       <div class="col-sm-12">
+           <div class="loadData">
+               @Html.Partial("LoadBuildFormData", Model)
+           </div>
+       </div>
+       <div class="col-sm-12">
+           @if (id > 0)
+           {
+               <a href="@Url.Action("FormEdit", "Home",new { id = id})" title="Add" class="btn btn-primary">Add</a>
+           }
+           else
+           {
+               <a href="@Url.Action("FormAdd", "Home")" title="Add" class="btn btn-primary">Add</a>
+           }
+       </div>
+   </div>
+    
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+    $("#searchData").click(function () {
+
+        var lableData = $(".column-drpsearch").val();
+        var lableValueData = $(".column-search").val();
+        
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("LoadBuildFormData", "Home")',
+            data: { lable: lableData, lableValue: lableValueData},
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $(".loadData").html("");
+                $(".loadData").html(data);
+            },
+         });
+    });
+</script>

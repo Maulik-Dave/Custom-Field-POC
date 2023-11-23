@@ -1,0 +1,61 @@
+﻿@model  IEnumerable<POC.Models.FormDataViewModel>
+
+@{
+    Layout = null;
+    var labelData = new List<SelectListItem>();
+
+    if (ViewBag.LabelList != null)
+    {
+        labelData = (List<SelectListItem>)ViewBag.LabelList;
+    }
+}
+
+<br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            @foreach (var item in labelData)
+            {
+                <th>@item.Text</th>
+            }
+            @if (Model != null && Model.Count() > 0)
+            {
+                <th><a href="@Url.Action("FormMasterEdit", "Home",new { id = Model.FirstOrDefault().FormId })" title="Edit Form">Edit Form</a></th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+
+                <tr>
+                    @if (item.FormDataValueModel != null)
+                    {
+                        foreach (var item1 in item.FormDataValueModel)
+                        {
+                            if (item1.userData != null && item1.userData.Count > 0)
+                            {
+
+                                <td>
+                                    @foreach (var item2 in item1.userData)
+                                    {
+                                        @item2
+                                    }
+                                </td>
+                            }
+                        }
+                        <td><a href="@Url.Action("FormDataEdit", "Home",new { formDataId = item.Id,formMasterId=item.FormId })" title="Edit Form">Edit Form Data</a></td>
+                    }
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+

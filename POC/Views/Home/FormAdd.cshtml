@@ -1,0 +1,159 @@
+﻿@model  POC.Models.FormMasterModel
+<div style="margin-top:15px !important">
+    <div id="fb-editor"></div>
+    @using (Html.BeginForm("FormAdd", "Home", FormMethod.Post, new { @id = "CreateFormAdd" }))
+    {
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                @Html.HiddenFor(m => m.Form)
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="@Url.Action("BuildForm", "Home")" title="Back" class="btn btn-default">Back</a>
+            </div>
+        </div>
+
+    }
+</div>
+
+<style>
+    .enableOptionsValueMsg-wrap .input-wrap label {
+        width:auto !important;
+        color:red !important;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+@*<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>*@
+<script src="~/Scripts/form-builder.js"></script>
+@*<script src="~/Scripts/New-form-builder.js"></script>*@
+<script>
+    var formBuilder;
+    var options = {
+        //showActionButtons: false, // defaults: `true`
+        //scrollToFieldOnAdd: false,
+        //disabledAttrs: [
+        //    'name'
+        //],
+        //disableFields: ['button', 'file', 'hidden', 'number'],
+        //disabledSubtypes: {
+        //    text: ['tel'],
+        //    textarea: ['tinymce', 'quill'],
+        //},
+        typeUserAttrs: {
+            "checkbox-group": {
+                //customInput: {
+                //    label: "Custom Text Field",
+                //    value: "This field is added only to checkbox with specific subtype",
+                //    type: "text"
+                //}
+                
+                isWarning: { 
+                    label: "is Warning",
+                    value: !1
+                },
+                dataInputAddNew: {
+                    label: "",
+                    value: "Add New",
+                    type: "button",
+                },
+                testrdt: {
+                    label: "dsdd",
+                    values: [{
+                        label: "Option 1"
+                    }, {
+                        label: "Option 2"
+                    }],                   
+                    type: "radio-group",
+                },
+                customInput: {
+                    label: "Custom Text Field",
+                    options: {
+                        "red": "Red",
+                        "green": "Green",
+                        "blue": "Blue"
+                    },
+                    type: "dropdown"
+                },
+                customInput1: {
+                    label: "Custom Text Field 1",
+                    options: {
+                        "red": "Red",
+                        "green": "Green",
+                        "blue": "Blue"
+                    },
+                    type: "dropdown"
+                }
+            }
+        }
+    };
+
+    var fbEditor = document.getElementById('fb-editor');
+    formBuilder = $(fbEditor).formBuilder(options);
+
+    $("form").submit(function (event) {
+        var jsonData = formBuilder.actions.getData('json');
+        $("#Form").val(jsonData);
+    });
+
+    
+
+    formBuilder.promise.then(formBuilder => {
+        debugger;
+        // after the builder loads, do you stuff here
+        //var observer = new MutationObserver(function (mutations) {
+        //    fixSingleSelects();
+        //});
+        //observer.observe(fbEditor, { childList: true, subtree: true, characterData: true });
+        //fixSingleSelects();
+    });
+
+    //function fixSingleSelects() {
+    //    debugger;
+    //    //alert("called fixSingleSelects l1");
+    //    var selectRadioInputQuery = 'li > input[type="radio"]';
+    //    var radioTargets = $(selectRadioInputQuery);
+
+    //    radioTargets.off('click.fixSingleSelects');
+    //    radioTargets.on('click.fixSingleSelects', function (event) {
+    //        //alert("called fixSingleSelects l2");
+    //        debugger;
+    //        var inputs = $(event.target.parentElement.parentElement).find(selectRadioInputQuery);
+    //        if (inputs) {
+    //            debugger;
+    //            for (var i = 0; i < inputs.length; i++) {
+    //                debugger;
+    //                if (inputs[i] !== event.target) {
+    //                    $(inputs[i]).prop('checked', false);
+    //                }
+    //            }
+    //        }
+    //    });
+    //}
+
+       
+    $(document).undelegate('li > input[type="radio"]', "click").delegate('li > input[type="radio"]', "click", function (e) {
+        alert("Level 1");
+        $(this).attr("value", $(this).is(":checked"));
+        $(this).closest('li').closest('ol').find('li > input[type="radio"][value=' + $(this).is(":checked") + ']').not(this).prop('checked', false);
+    });
+
+
+    $(document).undelegate('.fld-dataInputAddNew', "click").delegate('.fld-dataInputAddNew', "click", function (e) {
+        debugger;
+
+        var asdsdsd = $(this).closest(".form-elements").find(".field-options").next().html();
+
+        //$(this).closest(".isWarning-wrap").after(asdsdsd);
+
+
+        //$(asdsdsd).insertAfter($(this).closest(".isWarning-wrap"));
+
+        $(this).closest(".form-elements").find(".isWarning-wrap").after("<div class='form-group isWarning-wrap'> " + asdsdsd +"</div>");
+
+
+    });
+
+
+</script>
